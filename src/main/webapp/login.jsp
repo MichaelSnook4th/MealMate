@@ -20,5 +20,6 @@
 		<button type="submit">Login</button>
 	</form>
 	<p>Don't have an account? <a href="registration.jsp">Register here</a></p>
+	<p><a href="forgotpassword.jsp">Forgot Password?</a></p>
 </body>
 </html>

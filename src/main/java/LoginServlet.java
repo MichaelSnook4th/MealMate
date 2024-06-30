@@ -33,18 +33,16 @@ public class LoginServlet extends HttpServlet {
 		
 		try {
 			User user = userDAO.checkLogin(email, password);
-			String destinationPage = "login.jsp";
 			
 			if (user != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", user);
-				destinationPage = "home.jsp";
+				response.sendRedirect("home.jsp");
 			} else {
-				String message = "Invalid email or password";
-				request.setAttribute("message", message);
+				request.setAttribute("message", "Invalid email or password");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
-			response.sendRedirect(destinationPage);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new ServletException(e);
 		}
 	}
