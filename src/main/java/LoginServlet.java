@@ -37,14 +37,15 @@ public class LoginServlet extends HttpServlet {
 			if (user != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", user);
-				response.sendRedirect("home.jsp");
-			} else {
+				response.sendRedirect("mealmatehome.jsp");
+			} 
+		} catch (SQLException e) {
+			if ("Invalid email or password".equals(e.getMessage())) {
 				request.setAttribute("message", "Invalid email or password");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
+			} else {
+				throw new ServletException(e);
 			}
-		} catch (SQLException e) {
-			throw new ServletException(e);
 		}
 	}
-
 }

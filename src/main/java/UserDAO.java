@@ -20,6 +20,7 @@ public class UserDAO {
 	private static final String VERIFY_PASSWORD_RECOVERY_TOKEN = "SELECT userId FROM passwordRecovery WHERE token = ?";
 	private static final String UPDATE_PASSWORD_BY_TOKEN = "UPDATE users SET password = ? WHERE userId = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?"; 
+	private static final String DELETE_PASSWORD_RECOVERY_TOKEN = "DELETE FROM passwordRecovery WHERE token = ?";
 	
 	protected Connection getConnection() throws SQLException {
 		Connection connection = null;
@@ -138,6 +139,13 @@ public class UserDAO {
 		}
 	}
 	
+	public void deletePasswordRecoveryToken(String token) throws SQLException {
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(DELETE_PASSWORD_RECOVERY_TOKEN)){
+			statement.setString(1, token);
+			statement.executeUpdate();
+		}
+	}
 	public UUID getUserIdByPasswordRecoveryToken(String token) throws SQLException {
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(VERIFY_PASSWORD_RECOVERY_TOKEN)){

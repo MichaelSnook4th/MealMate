@@ -56,6 +56,7 @@ public class ResetPasswordServlet extends HttpServlet {
 			if (isValidToken) {
 				boolean passwordUpdated = userDAO.updatePasswordWithToken(token, newPassword);
 				if (passwordUpdated) {
+					userDAO.deletePasswordRecoveryToken(token);
 					response.sendRedirect("PasswordResetSuccess.jsp");
 				} else {
 					request.setAttribute("message", "Failed to update password");
