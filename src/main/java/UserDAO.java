@@ -22,6 +22,7 @@ public class UserDAO {
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?"; 
 	private static final String DELETE_PASSWORD_RECOVERY_TOKEN = "DELETE FROM passwordRecovery WHERE token = ?";
 	private static final String UPDATE_USER_SQL = "UPDATE users SET firstName = ?, lastName = ?, address = ?, email = ?, password = ? WHERE userId = ?";
+	private static final String DELETE_USER = "DELETE FROM users WHERE userId = ?";
 	
 	protected Connection getConnection() throws SQLException {
 		Connection connection = null;
@@ -190,6 +191,15 @@ public class UserDAO {
 			statement.setString(5, user.getPassword());
 			statement.setString(6, user.getUserId().toString());
 			statement.executeUpdate();
+		}
+	}
+	
+	public void deleteUser(User user) throws SQLException {
+		try (Connection connection = getConnection(); 
+				PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
+			statement.setString(1, user.getUserId().toString());
+			System.out.println(statement.toString());
+			statement.execute();
 		}
 	}
 }

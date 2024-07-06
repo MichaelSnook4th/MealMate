@@ -9,7 +9,7 @@
 </head>
 <body>
     <h2>User Profile</h2>
-        <form action="UpdateProfileServlet" method="post">
+        <form action="ProfileManagerServlet" method="post">
             <div>
                 <label>First Name:</label>
                 <input type="text" name="firstName" value="${user.firstName}" required>
@@ -30,7 +30,8 @@
                 <label>New Password:</label>
                 <input type="password" name="password">
             </div>
-            <button type="submit">Update Profile</button>
+            <button type="submit" name="update" value="update">Update Profile</button>
+            <button type="submit" name="delete" value="delete">Delete Profile</button>
             <a href="mealmatehome.jsp">return</a>
         </form>
 </body>
