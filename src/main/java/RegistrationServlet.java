@@ -35,8 +35,12 @@ public class RegistrationServlet extends HttpServlet {
 		
 		User user = new User(UUID.randomUUID(), firstName, lastName, address, email, password);
 		
+		String token = UUID.randomUUID().toString();
+		
 		try {
 			userDAO.registerUser(user);
+			userDAO.storeToken(user.getUserId(), token);
+			EmailUtility.sendVerificationEmail(email, token);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
