@@ -21,6 +21,7 @@ public class UserDAO {
 	private static final String UPDATE_PASSWORD_BY_TOKEN = "UPDATE users SET password = ? WHERE userId = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?"; 
 	private static final String DELETE_PASSWORD_RECOVERY_TOKEN = "DELETE FROM passwordRecovery WHERE token = ?";
+	private static final String UPDATE_USER_SQL = "UPDATE users SET firstName = ?, lastName = ?, address = ?, email = ?, password = ? WHERE userId = ?";
 	
 	protected Connection getConnection() throws SQLException {
 		Connection connection = null;
@@ -178,4 +179,17 @@ public class UserDAO {
             }
         }
     }
+	
+	public void updateUser(User user) throws SQLException {
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(UPDATE_USER_SQL)){
+			statement.setString(1, user.getFirstName());
+			statement.setString(2, user.getLastName());
+			statement.setString(3, user.getAddress());
+			statement.setString(4, user.getEmail());
+			statement.setString(5, user.getPassword());
+			statement.setString(6, user.getUserId().toString());
+			statement.executeUpdate();
+		}
+	}
 }

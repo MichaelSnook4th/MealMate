@@ -32,6 +32,7 @@
                 <input type="password" name="password">
             </div>
             <button type="submit">Update Profile</button>
+            <a href="mealmatehome.jsp">return</a>
         </form>
     </c:if>
 </body>
