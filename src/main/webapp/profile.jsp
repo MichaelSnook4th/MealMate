@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,6 +8,8 @@
 </head>
 <body>
     <h2>User Profile</h2>
+    <c:if test="${not empty user}">
+        <p>Welcome, ${user.firstName} ${user.lastName}!</p>
         <form action="UpdateProfileServlet" method="post">
             <div>
                 <label>First Name:</label>
@@ -33,5 +34,6 @@
             <button type="submit">Update Profile</button>
             <a href="mealmatehome.jsp">return</a>
         </form>
+    </c:if>
 </body>
 </html>
