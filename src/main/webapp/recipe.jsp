@@ -4,20 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Recipe</title>
-    <script type="text/javascript">
-        function renderIngredients() {
-            var ingredients = ${recipe.ingredients};
-            var list = document.getElementById('ingredientList');
-            ingredients.forEach(function(ingredientQuantity) {
-                var listItem = document.createElement('li');
-                listItem.textContent = ingredientQuantity.quantity + 'g of ' + ingredientQuantity.ingredient.ingredientName;
-                list.appendChild(listItem);
-            });
-        }
-    </script>
 </head>
-<body onload="renderIngredients()">
-    <h1>${recipe.recipeName}</h1>
-    <ul id="ingredientList"></ul>
+<body>
+    <h1>${recipeName}</h1>
+    <ul id="ingredientList">
+        ${ingredientsHtml}
+    </ul>
 </body>
 </html>

@@ -9,11 +9,6 @@ public class RecipeFactoryProxy {
 		if (recipeName == null || recipeName.isEmpty()) {
 			return null;
 		}
-		switch (recipeName) {
-			case "Pizza":
-				return recipeFactory.createPizza();
-			default:
-				return null;
-		}
+		return recipeFactory.createRecipe(recipeName);
 	}
 }

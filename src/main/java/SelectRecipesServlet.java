@@ -7,13 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RecipeServlet")
-public class RecipeServlet extends HttpServlet {
+@WebServlet("/SelectRecipesServlet")
+public class SelectRecipesServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] selectedRecipes = request.getParameterValues("recipeName");
-
+        
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeFactoryProxy recipeFactoryProxy = new RecipeFactoryProxy();
             List<Recipe> recipes = new ArrayList<>();
@@ -39,12 +39,12 @@ public class RecipeServlet extends HttpServlet {
             }
 
             request.setAttribute("recipesHtml", recipesHtml.toString());
+        } else {
+            request.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
         }
 
         request.getRequestDispatcher("displayRecipes.jsp").forward(request, response);
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
 }
+
+
