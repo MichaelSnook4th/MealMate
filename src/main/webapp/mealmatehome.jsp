@@ -16,5 +16,9 @@
 	<form action="ProfileServlet" method="get">
 		<button type="submit">Update Profile</button>
 	</form>
+	<form action="RecipeServlet" method="get">
+		<input type="hidden" name="recipeName" value="Pizza">
+		<button type="submit">Pizza</button>
+	</form>	
 </body>
 </html>
