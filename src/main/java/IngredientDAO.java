@@ -1,3 +1,4 @@
+import recipe.Ingredient;
 
 public class IngredientDAO {
 	public Ingredient getIngredient(String name) {
