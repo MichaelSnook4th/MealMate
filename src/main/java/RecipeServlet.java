@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,28 +20,20 @@ public class RecipeServlet extends HttpServlet {
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeFactoryProxy recipeFactoryProxy = new RecipeFactoryProxy();
             List<Recipe> recipes = new ArrayList<>();
-            StringBuilder recipesHtml = new StringBuilder();
+            Set<Ingredient> allIngredients = new HashSet<>();
 
             for (String recipeName : selectedRecipes) {
                 Recipe recipe = recipeFactoryProxy.getRecipeName(recipeName);
                 if (recipe != null) {
                     recipes.add(recipe);
-
-                    recipesHtml.append("<h2>").append(recipe.getRecipeName()).append("</h2>")
-                               .append("<ul>");
-
-                    for (IngredientQuantity ingredientQuantity : recipe.getIngredients()) {
-                        recipesHtml.append("<li>")
-                                   .append(ingredientQuantity.getQuantity())
-                                   .append("g of ")
-                                   .append(ingredientQuantity.getIngredient().getIngredientName())
-                                   .append("</li>");
-                    }
-                    recipesHtml.append("</ul>");
+                    recipe.getIngredients().forEach(iq -> allIngredients.add(iq.getIngredient()));
                 }
             }
-
+            String recipesHtml = HtmlGenerator.generateRecipesHtml(recipes);
+            String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(allIngredients);
+            
             request.setAttribute("recipesHtml", recipesHtml.toString());
+            request.setAttribute("ingredientsHtml", ingredientsHtml);
         }
 
         request.getRequestDispatcher("displayRecipes.jsp").forward(request, response);
