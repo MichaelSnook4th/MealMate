@@ -29,6 +29,11 @@
 			<label>Password:</label>
 			<input type="password" name="password" required>
 		</div>
+		        <label for="categories">Favorite Categories:</label><br>
+        <input type="checkbox" name="categories" value="Indian"> Indian<br>
+        <input type="checkbox" name="categories" value="Mexican"> Mexican<br>
+        <input type="checkbox" name="categories" value="Chinese"> Chinese<br><br>
+		
 		<button type="submit">Register</button>
 	</form>
 </body>

@@ -12,7 +12,7 @@
 	<form action="LogoutServlet" method="post">
 		<button type="submit">Logout</button>
 	</form>
-	<form action="ProfileManagerServlet" method="get">
+	<form action="ProfileManagerServlet" method="post">
 		<button type="submit">Update Profile</button>
 	</form>
 	
