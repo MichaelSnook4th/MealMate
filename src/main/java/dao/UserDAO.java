@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import user.User;
@@ -26,7 +29,8 @@ public class UserDAO {
 	private static final String DELETE_PASSWORD_RECOVERY_TOKEN = "DELETE FROM passwordRecovery WHERE token = ?";
 	private static final String UPDATE_USER_SQL = "UPDATE users SET firstName = ?, lastName = ?, address = ?, email = ?, password = ? WHERE userId = ?";
 	private static final String DELETE_USER = "DELETE FROM users WHERE userId = ?";
-	
+	private static final String SELECT_USER_CATEGORIES = "SELECT categories FROM users WHERE userId = ?";
+	private static final String INSERT_USER_CATEGORIES = "INSERT INTO users (userId, categories) VALUES (?, ?)";
 	protected Connection getConnection() throws SQLException {
 		Connection connection = null;
 		try {
@@ -51,35 +55,48 @@ public class UserDAO {
 			preparedStatement.setBoolean(7, false);
 			preparedStatement.setString(8, token);
 			preparedStatement.executeUpdate();
+		
+			if (user.getCategories() != null) {
+	            for (String category : user.getCategories()) {
+	                try (PreparedStatement categoryStatement = connection.prepareStatement(INSERT_USER_CATEGORIES)) {
+	                    categoryStatement.setString(1, user.getUserId().toString());
+	                    categoryStatement.setString(2, category);
+	                    categoryStatement.executeUpdate();
+	                }
+	            }
+	        }
 			EmailUtility.sendVerificationEmail(user.getEmail(), token);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public User checkLogin(String email, String password) throws SQLException {
-		User user = null;
-		try (Connection connection = getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)){
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, password);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			
-			if (resultSet.next()) {
-				boolean isVerified = resultSet.getBoolean("isVerified");
-				if (!isVerified) {
-					throw new SQLException("Email not verified");
-				}
-				String userId = resultSet.getString("userId");
-				String firstName = resultSet.getString("firstName");
-				String lastName = resultSet.getString("lastName");
-				String address = resultSet.getString("address");
-				user = new User(UUID.fromString(userId), firstName, lastName, address, email, password);
-			} else {
-				throw new SQLException("Invalid email or password");
-			}
-		}
-		return user;
+	    User user = null;
+	    try (Connection connection = getConnection();
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)){
+	        preparedStatement.setString(1, email);
+	        preparedStatement.setString(2, password);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            boolean isVerified = resultSet.getBoolean("isVerified");
+	            if (!isVerified) {
+	                throw new SQLException("Email not verified");
+	            }
+	            String userId = resultSet.getString("userId");
+	            String firstName = resultSet.getString("firstName");
+	            String lastName = resultSet.getString("lastName");
+	            String address = resultSet.getString("address");
+	            List<String> categories = getUserCategories(userId);
+	            user = new User(UUID.fromString(userId), firstName, lastName, address, email, password);
+	            user.setCategories(categories);
+	        } else {
+	            throw new SQLException("Invalid email or password");
+	        }
+	    }
+	    return user;
 	}
 	
 	public void storeToken(UUID userId, String token) throws SQLException {
@@ -205,4 +222,26 @@ public class UserDAO {
 			statement.execute();
 		}
 	}
+	
+	public List<String> getUserCategories(String userId) throws SQLException {
+	    List<String> categories = new ArrayList<>();
+	    String query = "SELECT categories FROM users WHERE userId = ?";
+	    
+	    try (Connection connection = getConnection();
+	         PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, userId);
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                String categoriesString = resultSet.getString("categories");
+	                if (categoriesString != null && !categoriesString.isEmpty()) {
+	                    categories = Arrays.asList(categoriesString.split(","));
+	                }
+	            }
+	        }
+	    }
+	    return categories;
+	}
+
+
+
 }

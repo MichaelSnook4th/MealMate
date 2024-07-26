@@ -1,4 +1,5 @@
 package user;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -10,6 +11,7 @@ public class User {
     private String address;
     private String email;
     private String password;
+    private List<String> categories;
 
     public User(UUID userId, String firstName, String lastName, String address, String email, String password){
         this.userId = userId;
@@ -62,5 +64,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 }

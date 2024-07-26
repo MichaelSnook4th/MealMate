@@ -18,6 +18,8 @@
 	
 	
 	<p>Please select your favorite meals (up to 5)</p>
+	
+	<p>${user.categories}</p>
 
     <form action="SelectRecipesServlet" method="post">
         <label><input type="checkbox" name="recipeName" value="Pizza"> Pizza</label><br>
