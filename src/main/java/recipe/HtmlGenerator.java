@@ -37,4 +37,27 @@ public class HtmlGenerator {
 		
 		return ingredientsHtml.toString();
 	}
+	
+	public static String generateShoppingListHtml(List<String> missingIngredients) {
+        StringBuilder shoppingListHtml = new StringBuilder();
+        shoppingListHtml.append("<h1>Shopping List</h1>");
+        if (missingIngredients.isEmpty()) {
+            shoppingListHtml.append("<p>You have all the ingredients.</p>");
+        } else {
+            shoppingListHtml.append("<form action='ShoppingListServlet' method='post'>");
+            shoppingListHtml.append("<ul>");
+            for (String ingredient : missingIngredients) {
+                shoppingListHtml.append("<li>")
+                                .append("<input type='checkbox' name='ingredient' value='")
+                                .append(ingredient)
+                                .append("' /> ")
+                                .append(ingredient)
+                                .append("</li>");
+            }
+            shoppingListHtml.append("</ul>");
+            shoppingListHtml.append("<button type='submit'>Submit</button>");
+            shoppingListHtml.append("</form>");
+        }
+        return shoppingListHtml.toString();
+    }
 }

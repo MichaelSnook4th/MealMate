@@ -12,14 +12,15 @@ public class UserShoppingListServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] selectedIngredients = request.getParameterValues("ingredient");
-
-        if (selectedIngredients != null) {
-            for (String ingredient : selectedIngredients) {
-                System.out.println("User has: " + ingredient);
-            }
+        
+        if (selectedIngredients == null) {
+            selectedIngredients = new String[0]; 
         }
-        response.sendRedirect("shoppingList.jsp");
+
+        request.setAttribute("selectedIngredients", selectedIngredients);
+        request.getRequestDispatcher("shoppingList.jsp").forward(request, response);
     }
+
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);

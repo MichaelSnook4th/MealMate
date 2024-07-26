@@ -7,25 +7,16 @@
 </head>
 <body>
     <h1>Selected Recipes</h1>
-    <%
-        String recipesHtml = (String) request.getAttribute("recipesHtml");
-        if (recipesHtml != null) {
-            out.println(recipesHtml);
-        } else {
-            out.println("<p>No recipes selected.</p>");
-        }
-    %>
+    <div>
+        <%= request.getAttribute("recipesHtml") %>
+    </div>
     
-    <form action="UserShoppingListServlet" method="post">
-        <h2>Select Ingredients You Have</h2>
-        <%
-            String ingredientsHtml = (String) request.getAttribute("ingredientsHtml");
-            if (ingredientsHtml != null) {
-                out.println(ingredientsHtml);
-            } else {
-                out.println("<p>No ingredients available.</p>");
-            }
-        %>
+    <h2>Available Ingredients</h2>
+    <form action="ShoppingListServlet" method="post">
+        <div>
+            <%= request.getAttribute("ingredientsHtml") %>
+        </div>
+        <input type="hidden" name="allIngredients" value="<%= request.getAttribute("allIngredients") %>" />
         <button type="submit">Generate Shopping List</button>
     </form>
     
