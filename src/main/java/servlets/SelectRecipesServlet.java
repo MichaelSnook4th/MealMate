@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import recipe.HtmlGenerator;
 import recipe.Ingredient;
+import recipe.IngredientQuantity;
 import recipe.Recipe;
 import recipe.RecipeFactoryProxy;
 
@@ -27,25 +28,30 @@ public class SelectRecipesServlet extends HttpServlet {
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeFactoryProxy recipeFactoryProxy = new RecipeFactoryProxy();
             List<Recipe> recipes = new ArrayList<>();
-            Set<Ingredient> allIngredients = new HashSet<>();
+            Set<String> selectedIngredientsSet = new HashSet<>();
 
             for (String recipeName : selectedRecipes) {
                 Recipe recipe = recipeFactoryProxy.getRecipeName(recipeName);
                 if (recipe != null) {
                     recipes.add(recipe);
-                    recipe.getIngredients().forEach(iq -> allIngredients.add(iq.getIngredient()));
+                    for (IngredientQuantity iq : recipe.getIngredients()) {
+                        selectedIngredientsSet.add(iq.getIngredient().getIngredientName());
+                    }
                 }
             }
+            
             String recipesHtml = HtmlGenerator.generateRecipesHtml(recipes);
-            String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(allIngredients);
+            String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(selectedIngredientsSet);
             
             request.setAttribute("recipesHtml", recipesHtml);
             request.setAttribute("ingredientsHtml", ingredientsHtml);
-            request.setAttribute("allIngredients", allIngredients);
+            request.setAttribute("selectedIngredients", selectedIngredientsSet);
         } else {
             request.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
         }
 
         request.getRequestDispatcher("displayRecipes.jsp").forward(request, response);
     }
+
 }
+

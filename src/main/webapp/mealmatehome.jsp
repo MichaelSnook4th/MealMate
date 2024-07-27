@@ -17,13 +17,18 @@
 	</form>
 	
 	
-	<p>Please select your favorite meals (up to 5)</p>
+	<p>Please select your favorite meals</p>
 	
 	<p>${user.categories}</p>
 
     <form action="SelectRecipesServlet" method="post">
         <label><input type="checkbox" name="recipeName" value="Pizza"> Pizza</label><br>
         <label><input type="checkbox" name="recipeName" value="Nacho"> Nacho</label><br>
+        <label><input type="checkbox" name="recipeName" value="Spaghetti Bolognese"> Spaghetti Bolognese</label><br>
+        <label><input type="checkbox" name="recipeName" value="Caesar Salad"> Caesar Salad</label><br>
+        <label><input type="checkbox" name="recipeName" value="Beef Tacos"> Beef Tacos</label><br>
+        <label><input type="checkbox" name="recipeName" value="Beef Stroganof"> Beef Stroganof</label><br>
+        <label><input type="checkbox" name="recipeName" value="Chicken Alfredo"> Chicken Alfredo</label><br>
         <button type="submit">Submit</button>
     </form>
 </body>

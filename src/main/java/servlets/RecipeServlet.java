@@ -26,19 +26,20 @@ public class RecipeServlet extends HttpServlet {
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeFactoryProxy recipeFactoryProxy = new RecipeFactoryProxy();
             List<Recipe> recipes = new ArrayList<>();
-            Set<Ingredient> allIngredients = new HashSet<>();
+            Set<String> selectedIngredientsSet = new HashSet<>();
 
             for (String recipeName : selectedRecipes) {
                 Recipe recipe = recipeFactoryProxy.getRecipeName(recipeName);
                 if (recipe != null) {
                     recipes.add(recipe);
-                    recipe.getIngredients().forEach(iq -> allIngredients.add(iq.getIngredient()));
+                    recipe.getIngredients().forEach(iq -> selectedIngredientsSet.add(iq.getIngredient().getIngredientName()));
                 }
             }
-            String recipesHtml = HtmlGenerator.generateRecipesHtml(recipes);
-            String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(allIngredients);
             
-            request.setAttribute("recipesHtml", recipesHtml.toString());
+            String recipesHtml = HtmlGenerator.generateRecipesHtml(recipes);
+            String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(selectedIngredientsSet);
+            
+            request.setAttribute("recipesHtml", recipesHtml);
             request.setAttribute("ingredientsHtml", ingredientsHtml);
         }
 
@@ -49,3 +50,4 @@ public class RecipeServlet extends HttpServlet {
         doPost(request, response);
     }
 }
+

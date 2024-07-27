@@ -6,11 +6,11 @@
     <title>Selected Recipes</title>
 </head>
 <body>
-	<h1>Selected Recipes</h1>
+    <h1>Selected Recipes</h1>
     <div>
         ${recipesHtml}
     </div>
-    <h2>Ingredients</h2>
+    <h2>Select Missing Ingredients</h2>
     <form action="UserShoppingListServlet" method="post">
         ${ingredientsHtml}
         <input type="submit" value="Generate Shopping List">

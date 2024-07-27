@@ -89,9 +89,9 @@ public class UserDAO {
 	            String firstName = resultSet.getString("firstName");
 	            String lastName = resultSet.getString("lastName");
 	            String address = resultSet.getString("address");
-	            List<String> categories = getUserCategories(userId);
+	            /* List<String> categories = getUserCategories(userId); */
 	            user = new User(UUID.fromString(userId), firstName, lastName, address, email, password);
-	            user.setCategories(categories);
+	            /* user.setCategories(categories); */
 	        } else {
 	            throw new SQLException("Invalid email or password");
 	        }
@@ -223,7 +223,7 @@ public class UserDAO {
 		}
 	}
 	
-	public List<String> getUserCategories(String userId) throws SQLException {
+	/*public List<String> getUserCategories(String userId) throws SQLException {
 	    List<String> categories = new ArrayList<>();
 	    String query = "SELECT categories FROM users WHERE userId = ?";
 	    
@@ -240,7 +240,7 @@ public class UserDAO {
 	        }
 	    }
 	    return categories;
-	}
+	}*/
 
 
 

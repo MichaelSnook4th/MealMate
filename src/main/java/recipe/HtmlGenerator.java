@@ -23,40 +23,35 @@ public class HtmlGenerator {
 		return recipesHtml.toString();
 	}
 	
-	public static String generateIngredientsHtml(Set<Ingredient> ingredients) {
-		StringBuilder ingredientsHtml = new StringBuilder();
-		
-		for (Ingredient ingredient : ingredients) {
-			ingredientsHtml.append("<label>")
-            .append("<input type='checkbox' name='ingredient' value='")
-            .append(ingredient.getIngredientName())
-            .append("' />")
-            .append(ingredient.getIngredientName())
-            .append("</label><br/>");		
-		}
-		
-		return ingredientsHtml.toString();
+	public static String generateIngredientsHtml(Set<String> ingredientNames) {
+	    StringBuilder ingredientsHtml = new StringBuilder();
+	    
+	    for (String ingredientName : ingredientNames) {
+	        ingredientsHtml.append("<label>")
+	            .append("<input type='checkbox' name='ingredient' value='")
+	            .append(ingredientName)
+	            .append("' />")
+	            .append(ingredientName)
+	            .append("</label><br/>");        
+	    }
+	    
+	    return ingredientsHtml.toString();
 	}
+
+
 	
-	public static String generateShoppingListHtml(List<String> missingIngredients) {
+	public static String generateShoppingListHtml(List<String> ingredients) {
         StringBuilder shoppingListHtml = new StringBuilder();
-        shoppingListHtml.append("<h1>Shopping List</h1>");
-        if (missingIngredients.isEmpty()) {
-            shoppingListHtml.append("<p>You have all the ingredients.</p>");
+        if (ingredients.isEmpty()) {
+            shoppingListHtml.append("<p>No ingredients selected.</p>");
         } else {
-            shoppingListHtml.append("<form action='ShoppingListServlet' method='post'>");
             shoppingListHtml.append("<ul>");
-            for (String ingredient : missingIngredients) {
+            for (String ingredient : ingredients) {
                 shoppingListHtml.append("<li>")
-                                .append("<input type='checkbox' name='ingredient' value='")
-                                .append(ingredient)
-                                .append("' /> ")
                                 .append(ingredient)
                                 .append("</li>");
             }
             shoppingListHtml.append("</ul>");
-            shoppingListHtml.append("<button type='submit'>Submit</button>");
-            shoppingListHtml.append("</form>");
         }
         return shoppingListHtml.toString();
     }
