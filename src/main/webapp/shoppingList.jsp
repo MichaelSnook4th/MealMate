@@ -8,18 +8,20 @@
 </head>
 <body>
     <h1>Your Shopping List</h1>
-    <%
-        List<String> shoppingList = (List<String>) request.getAttribute("shoppingList");
-        if (shoppingList != null && !shoppingList.isEmpty()) {
-            out.println("<ul>");
-            for (String item : shoppingList) {
-                out.println("<li>" + item + "</li>");
+    <ul>
+        <%
+            List<recipe.Ingredient> missingIngredients = (List<recipe.Ingredient>) request.getAttribute("missingIngredients");
+            if (missingIngredients != null && !missingIngredients.isEmpty()) {
+                for (recipe.Ingredient ingredient : missingIngredients) {
+                    out.println("<li>" + ingredient.getIngredientName() + "</li>");
+                }
+            } else {
+                out.println("<li>No missing ingredients.</li>");
             }
-            out.println("</ul>");
-        } else {
-            out.println("<p>All ingredients are available.</p>");
-        }
-    %>
-    <!--  <a href="welcome.jsp">Go back to Welcome</a> -->
+        %>
+    </ul>
+    <form action="mealmatehome.jsp" method="get">
+        <button type="submit">Back to Home</button>
+    </form>
 </body>
 </html>

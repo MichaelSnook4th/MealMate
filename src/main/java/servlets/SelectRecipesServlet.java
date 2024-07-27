@@ -1,4 +1,5 @@
 package servlets;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,6 +41,7 @@ public class SelectRecipesServlet extends HttpServlet {
             
             request.setAttribute("recipesHtml", recipesHtml);
             request.setAttribute("ingredientsHtml", ingredientsHtml);
+            request.setAttribute("allIngredients", allIngredients);
         } else {
             request.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
         }
@@ -47,5 +49,3 @@ public class SelectRecipesServlet extends HttpServlet {
         request.getRequestDispatcher("displayRecipes.jsp").forward(request, response);
     }
 }
-
-

@@ -6,18 +6,14 @@
     <title>Selected Recipes</title>
 </head>
 <body>
-    <h1>Selected Recipes</h1>
+	<h1>Selected Recipes</h1>
     <div>
-        <%= request.getAttribute("recipesHtml") %>
+        ${recipesHtml}
     </div>
-    
-    <h2>Available Ingredients</h2>
-    <form action="ShoppingListServlet" method="post">
-        <div>
-            <%= request.getAttribute("ingredientsHtml") %>
-        </div>
-        <input type="hidden" name="allIngredients" value="<%= request.getAttribute("allIngredients") %>" />
-        <button type="submit">Generate Shopping List</button>
+    <h2>Ingredients</h2>
+    <form action="UserShoppingListServlet" method="post">
+        ${ingredientsHtml}
+        <input type="submit" value="Generate Shopping List">
     </form>
     
     <form action="mealmatehome.jsp" method="get">
