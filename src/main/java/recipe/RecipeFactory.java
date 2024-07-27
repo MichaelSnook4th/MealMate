@@ -28,7 +28,7 @@ public class RecipeFactory {
     public Recipe createPizza() {
         Recipe pizza = new Recipe("Pizza", new ArrayList<>());
         List<IngredientQuantity> ingredients = pizza.getIngredients();
-        ingredients.add(new IngredientQuantity(new Ingredient("Cheese"), 200));
+        ingredients.add(new IngredientQuantity(new Ingredient("Mozzerela"), 200));
         ingredients.add(new IngredientQuantity(new Ingredient("Tomato Sauce"), 150));
         ingredients.add(new IngredientQuantity(new Ingredient("Dough"), 500));
         ingredients.add(new IngredientQuantity(new Ingredient("Pepperoni"), 200));
@@ -40,7 +40,7 @@ public class RecipeFactory {
     public Recipe createNacho() {
         Recipe nacho = new Recipe("Nacho", new ArrayList<>());
         List<IngredientQuantity> ingredients = nacho.getIngredients();
-        ingredients.add(new IngredientQuantity(new Ingredient("Cheese"), 200));
+        ingredients.add(new IngredientQuantity(new Ingredient("Nacho Cheese"), 200));
         ingredients.add(new IngredientQuantity(new Ingredient("Tortilla Chips"), 500));
         
         nacho.setIngredients(ingredients);
