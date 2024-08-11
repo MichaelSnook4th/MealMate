@@ -32,7 +32,7 @@ public class UserDAO {
     private static final String INSERT_USER_CATEGORIES = "INSERT INTO user_categories (userId, category_id) VALUES (?, ?)";
     private static final String DELETE_USER_CATEGORIES = "DELETE FROM user_categories WHERE userId = ?";
     private static final String SELECT_USER_CATEGORIES = "SELECT c.category_name FROM user_categories uc JOIN categories c ON uc.category_id = c.category_id WHERE uc.userId = ?";
-    
+
     protected Connection getConnection() throws SQLException {
         Connection connection = null;
         try {
@@ -53,7 +53,7 @@ public class UserDAO {
                 preparedStatement.setString(3, user.getAddress());
                 preparedStatement.setString(4, user.getEmail());
                 preparedStatement.setString(5, user.getPassword());
-                preparedStatement.setBoolean(6, false); // Assuming user is not verified at registration
+                preparedStatement.setBoolean(6, false); 
                 preparedStatement.setString(7, token);
                 preparedStatement.executeUpdate();
 
@@ -75,8 +75,6 @@ public class UserDAO {
             }
         }
     }
-
-
 
     public User checkLogin(String email, String password) throws SQLException {
         User user = null;
@@ -218,13 +216,30 @@ public class UserDAO {
     }
 
     public void deleteUser(User user) throws SQLException {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
-            statement.setInt(1, user.getUserId());
-            statement.execute();
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
+
+            try {
+                try (PreparedStatement deleteCategoriesStmt = connection.prepareStatement(DELETE_USER_CATEGORIES)) {
+                    deleteCategoriesStmt.setInt(1, user.getUserId());
+                    deleteCategoriesStmt.executeUpdate();
+                }
+
+                try (PreparedStatement deleteUserStmt = connection.prepareStatement(DELETE_USER)) {
+                    deleteUserStmt.setInt(1, user.getUserId());
+                    deleteUserStmt.executeUpdate();
+                }
+
+                connection.commit(); 
+            } catch (SQLException e) {
+                connection.rollback(); 
+                throw e;
+            } finally {
+                connection.setAutoCommit(true); 
+            }
         }
     }
-    
+
     public List<String> getUserCategories(int userId) throws SQLException {
         List<String> categories = new ArrayList<>();
         try (Connection connection = getConnection();
@@ -239,6 +254,34 @@ public class UserDAO {
         }
         return categories;
     }
+    
+    public void updateUserCategories(int userId, String[] categories) throws SQLException {
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
+
+            try {
+                try (PreparedStatement deleteStmt = connection.prepareStatement(DELETE_USER_CATEGORIES)) {
+                    deleteStmt.setInt(1, userId);
+                    deleteStmt.executeUpdate();
+                }
+
+                if (categories != null) {
+                    try (PreparedStatement insertStmt = connection.prepareStatement(INSERT_USER_CATEGORIES)) {
+                        for (String categoryId : categories) {
+                            insertStmt.setInt(1, userId);
+                            insertStmt.setInt(2, Integer.parseInt(categoryId));
+                            insertStmt.executeUpdate();
+                        }
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        }
+    }
 }
-
-

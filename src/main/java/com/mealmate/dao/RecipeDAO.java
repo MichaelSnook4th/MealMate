@@ -144,7 +144,7 @@ public class RecipeDAO {
     public List<Recipe> getRecipesByCategoryIds(List<Integer> categoryIds) throws SQLException {
         List<Recipe> recipes = new ArrayList<>();
         if (categoryIds.isEmpty()) {
-            return recipes; // Return empty list if no category IDs are provided
+            return recipes;
         }
 
         String placeholders = categoryIds.stream().map(id -> "?").collect(Collectors.joining(","));
@@ -174,7 +174,7 @@ public class RecipeDAO {
     public List<Integer> getCategoryIdsByName(List<String> categoryNames) throws SQLException {
         List<Integer> categoryIds = new ArrayList<>();
         if (categoryNames.isEmpty()) {
-            return categoryIds; // Return empty list if no category names are provided
+            return categoryIds; 
         }
         String placeholders = categoryNames.stream().map(name -> "?").collect(Collectors.joining(","));
         String sql = "SELECT category_id FROM categories WHERE category_name IN (" + placeholders + ")";

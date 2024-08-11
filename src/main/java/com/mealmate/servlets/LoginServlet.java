@@ -46,7 +46,6 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                // Redirect to HomeServlet to load recipes
                 response.sendRedirect("HomeServlet");
             } 
         } catch (SQLException e) {

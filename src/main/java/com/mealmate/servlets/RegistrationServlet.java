@@ -44,10 +44,8 @@ public class RegistrationServlet extends HttpServlet {
         User user = new User(firstName, lastName, address, email, password);
 
         try {
-            // Register the user with the selected categories
             userDAO.registerUser(user, categories);
 
-            // Send verification email
             String token = UUID.randomUUID().toString();
             userDAO.storeToken(user.getUserId(), token);
             EmailUtility.sendVerificationEmail(email, token);

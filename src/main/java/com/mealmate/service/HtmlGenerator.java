@@ -5,7 +5,6 @@ import java.util.Set;
 
 public class HtmlGenerator {
 
-    // For displaying recipe names
     public static String generateRecipesHtml(List<String> recipeNames) {
         StringBuilder recipesHtml = new StringBuilder();
         
@@ -20,7 +19,7 @@ public class HtmlGenerator {
         
         for (String ingredientName : ingredientNames) {
             ingredientsHtml.append("<label>")
-                .append("<input type='checkbox' name='selectedIngredients' value='")  // Correct name is used here
+                .append("<input type='checkbox' name='selectedIngredients' value='") 
                 .append(ingredientName)
                 .append("' />")
                 .append(ingredientName)

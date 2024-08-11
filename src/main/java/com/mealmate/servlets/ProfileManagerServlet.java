@@ -1,39 +1,23 @@
 package com.mealmate.servlets;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import com.mealmate.beans.Recipe;
 import com.mealmate.beans.User;
-import com.mealmate.dao.RecipeDAO;
 import com.mealmate.dao.UserDAO;
 
-
 @WebServlet("/ProfileManagerServlet")
-@MultipartConfig
 public class ProfileManagerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
-    private RecipeDAO recipeDAO;
 
     public void init() {
         userDAO = new UserDAO();
-        recipeDAO = new RecipeDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,41 +25,35 @@ public class ProfileManagerServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
 
-            if(request.getParameter("update") != null) {
+            if (request.getParameter("update") != null) {
+                // Get parameters from the form
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String address = request.getParameter("address");
+                String email = request.getParameter("email");
                 String password = request.getParameter("password");
+                String[] selectedCategories = request.getParameterValues("categories");
 
-                user.setFirstName(request.getParameter("firstName"));
-                user.setLastName(request.getParameter("lastName"));
-                user.setAddress(request.getParameter("address"));
-                user.setEmail(request.getParameter("email"));
-
-                if (password != null && !password.isEmpty()) {
-                    user.setPassword(password);
-                }
+                if (firstName != null && !firstName.isEmpty()) user.setFirstName(firstName);
+                if (lastName != null && !lastName.isEmpty()) user.setLastName(lastName);
+                if (address != null && !address.isEmpty()) user.setAddress(address);
+                if (email != null && !email.isEmpty()) user.setEmail(email);
+                if (password != null && !password.isEmpty()) user.setPassword(password);
 
                 try {
                     userDAO.updateUser(user);
 
-                    List<String> categories = userDAO.getUserCategories(user.getUserId());
-                    List<Recipe> recipes = recipeDAO.getAllRecipes(); 
+                    userDAO.updateUserCategories(user.getUserId(), selectedCategories);
 
-                    System.out.println("User Categories: " + categories);
-                    for (Recipe recipe : recipes) {
-                        System.out.println("Recipe: " + recipe.getName() + " in category: " + recipe.getCategory());
-                    }
-
-                    session.setAttribute("userCategories", categories);
-                    request.setAttribute("userRecipes", recipes); 
-
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
-                    dispatcher.forward(request, response);
+                    session.setAttribute("user", user);
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
                 } catch (SQLException e) {
                     throw new ServletException(e);
                 }
-            } else if(request.getParameter("delete") != null) {
+            } else if (request.getParameter("delete") != null) {
                 try {
                     userDAO.deleteUser(user);
-                    session.setAttribute("user", null);
+                    session.invalidate();
                     response.sendRedirect("login.jsp");
                 } catch (SQLException e) {
                     throw new ServletException(e);
@@ -85,40 +63,4 @@ public class ProfileManagerServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
-
-    
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            List<String> categories;
-            List<Recipe> recipes = new ArrayList<>();
-            try {
-                categories = userDAO.getUserCategories(user.getUserId());
-                
-                System.out.println("User Categories: " + categories);
-
-                List<Integer> categoryIds = recipeDAO.getCategoryIdsByName(categories);
-                
-                System.out.println("Category IDs: " + categoryIds);
-
-                recipes = recipeDAO.getRecipesByCategoryIds(categoryIds);
-                
-                for (Recipe recipe : recipes) {
-                    System.out.println("Filtered Recipe: " + recipe.getName() + " in category: " + recipe.getCategory());
-                }
-
-                request.setAttribute("userCategories", categories);
-                request.setAttribute("userRecipes", recipes); 
-            } catch (SQLException e) {
-                throw new ServletException("Error retrieving user categories", e);
-            }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
-            dispatcher.forward(request, response);
-        } else {
-            response.sendRedirect("login.jsp");
-        }
-    }
-
-
 }

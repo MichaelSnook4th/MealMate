@@ -37,10 +37,8 @@ public class SelectRecipesServlet extends HttpServlet {
             String recipesHtml = HtmlGenerator.generateRecipesHtml(recipeNames);
             String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(selectedIngredientsSet);
             
-            // Generate the allIngredientsStr
             String allIngredientsStr = String.join(",", selectedIngredientsSet);
 
-            // Set attributes to be used in the JSP
             request.setAttribute("recipesHtml", recipesHtml);
             request.setAttribute("ingredientsHtml", ingredientsHtml);
             request.setAttribute("allIngredientsStr", allIngredientsStr);
