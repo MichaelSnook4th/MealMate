@@ -25,19 +25,11 @@ public class SelectRecipesServlet extends HttpServlet {
         
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeDAO recipeDAO = new RecipeDAO();
-            List<Recipe> recipes = recipeDAO.getAllRecipes();  // Adjust this as needed to fetch recipes
             Set<String> selectedIngredientsSet = new HashSet<>();
             
-            List<String> recipeNames = new ArrayList<>();
-            List<String> selectedRecipesList = Arrays.asList(selectedRecipes);
+            List<String> recipeNames = Arrays.asList(selectedRecipes);
             
-            for (Recipe recipe : recipes) {
-                if (selectedRecipesList.contains(recipe.getName())) {
-                    recipeNames.add(recipe.getName());
-                }
-            }
-            
-            for (String recipeName : selectedRecipes) {
+            for (String recipeName : recipeNames) {
                 List<String> ingredients = recipeDAO.getIngredientsByRecipeName(recipeName);
                 selectedIngredientsSet.addAll(ingredients);
             }
@@ -45,9 +37,13 @@ public class SelectRecipesServlet extends HttpServlet {
             String recipesHtml = HtmlGenerator.generateRecipesHtml(recipeNames);
             String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(selectedIngredientsSet);
             
+            // Generate the allIngredientsStr
+            String allIngredientsStr = String.join(",", selectedIngredientsSet);
+
+            // Set attributes to be used in the JSP
             request.setAttribute("recipesHtml", recipesHtml);
             request.setAttribute("ingredientsHtml", ingredientsHtml);
-            request.setAttribute("selectedIngredients", selectedIngredientsSet);
+            request.setAttribute("allIngredientsStr", allIngredientsStr);
         } else {
             request.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
         }

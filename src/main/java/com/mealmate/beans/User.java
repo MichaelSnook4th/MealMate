@@ -1,7 +1,5 @@
 package com.mealmate.beans;
 
-import java.util.List;
-
 public class User {
     private int userId;
     private String firstName;
@@ -9,30 +7,27 @@ public class User {
     private String address;
     private String email;
     private String password;
-    private List<Integer> categories;
 
- // Constructor for new users (without userId and categories)
+    // Constructor for new users
     public User(String firstName, String lastName, String address, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.password = password;
-        this.categories = null;
-        
     }
-    // Constructor for existing users (with userId)
-    public User(int userId, String firstname, String lastname, String address, String email, String password, List<Integer> categories) {
+
+    // Constructor for existing users
+    public User(int userId, String firstName, String lastName, String address, String email, String password) {
         this.userId = userId;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.password = password;
-        this.categories = categories;
     }
 
-    // Getter and setter for userId
+    // Getters and setters
     public int getUserId() {
         return userId;
     }
@@ -41,21 +36,20 @@ public class User {
         this.userId = userId;
     }
 
-    // Existing getters and setters...
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastname) {
-        this.lastName = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress() {
@@ -80,13 +74,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
     }
 }

@@ -11,13 +11,11 @@
         ${recipesHtml}
     </div>
     <h2>Select Missing Ingredients</h2>
-    <form action="UserShoppingListServlet" method="post">
-        ${ingredientsHtml}
-        <input type="submit" value="Generate Shopping List">
-    </form>
-    
-    <form action="mealmatehome.jsp" method="get">
-        <button type="submit">Back to Home</button>
-    </form>
+<form action="ShoppingListServlet" method="post">
+    ${ingredientsHtml}
+    <input type="submit" value="Generate Shopping List">
+</form>
+
+
 </body>
 </html>

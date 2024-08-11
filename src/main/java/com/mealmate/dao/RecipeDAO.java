@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.mealmate.beans.Recipe;
 
@@ -98,6 +99,9 @@ public class RecipeDAO {
             while (resultSet.next()) {
                 String recipeName = resultSet.getString("recipe_name");
                 String categoryName = resultSet.getString("category_name");
+
+                System.out.println("Retrieved Recipe: " + recipeName + " in category: " + categoryName);
+
                 recipes.add(new Recipe(recipeName, categoryName));
             }
         } catch (SQLException e) {
@@ -105,6 +109,7 @@ public class RecipeDAO {
         }
         return recipes;
     }
+
     
     public List<String> getAllCategories() {
         List<String> categories = new ArrayList<>();
@@ -135,4 +140,59 @@ public class RecipeDAO {
         }
         return ingredients;
     }
+    
+    public List<Recipe> getRecipesByCategoryIds(List<Integer> categoryIds) throws SQLException {
+        List<Recipe> recipes = new ArrayList<>();
+        if (categoryIds.isEmpty()) {
+            return recipes; // Return empty list if no category IDs are provided
+        }
+
+        String placeholders = categoryIds.stream().map(id -> "?").collect(Collectors.joining(","));
+        String sql = "SELECT recipe_name, category_name FROM recipes r " +
+                     "JOIN categories c ON r.category_id = c.category_id " +
+                     "WHERE r.category_id IN (" + placeholders + ")";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            for (int i = 0; i < categoryIds.size(); i++) {
+                preparedStatement.setInt(i + 1, categoryIds.get(i));
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String recipeName = resultSet.getString("recipe_name");
+                    String categoryName = resultSet.getString("category_name");
+                    recipes.add(new Recipe(recipeName, categoryName));
+                }
+            }
+        }
+        return recipes;
+    }
+
+
+    public List<Integer> getCategoryIdsByName(List<String> categoryNames) throws SQLException {
+        List<Integer> categoryIds = new ArrayList<>();
+        if (categoryNames.isEmpty()) {
+            return categoryIds; // Return empty list if no category names are provided
+        }
+        String placeholders = categoryNames.stream().map(name -> "?").collect(Collectors.joining(","));
+        String sql = "SELECT category_id FROM categories WHERE category_name IN (" + placeholders + ")";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            
+            for (int i = 0; i < categoryNames.size(); i++) {
+                preparedStatement.setString(i + 1, categoryNames.get(i));
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    categoryIds.add(resultSet.getInt("category_id"));
+                }
+            }
+        }
+        return categoryIds;
+    }
+
 }

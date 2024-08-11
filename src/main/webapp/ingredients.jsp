@@ -43,6 +43,5 @@
         <br>
         <button type="submit">Generate Shopping List</button>
     </form>
-   <!--   <a href="welcome.jsp">Go back</a> -->
 </body>
 </html>

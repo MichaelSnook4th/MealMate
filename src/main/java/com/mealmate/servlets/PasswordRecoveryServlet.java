@@ -58,7 +58,7 @@ public class PasswordRecoveryServlet extends HttpServlet {
             User user = userDAO.getUserByEmail(email);
             if (user != null) {
                 String token = UUID.randomUUID().toString();
-                userDAO.storePasswordRecoveryToken(user.getUserId(), token); // Make sure getUserId() returns int
+                userDAO.storePasswordRecoveryToken(user.getUserId(), token);
                 EmailUtility.sendPasswordRecoveryEmail(email, token);
                 response.sendRedirect("PasswordRecoveryConfirmation.jsp");
             } else {

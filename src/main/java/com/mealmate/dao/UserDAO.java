@@ -95,7 +95,7 @@ public class UserDAO {
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 String address = resultSet.getString("address");
-                user = new User(userId, firstName, lastName, address, email, password, null);
+                user = new User(userId, firstName, lastName, address, email, password);
             } else {
                 throw new SQLException("Invalid email or password");
             }
@@ -197,7 +197,7 @@ public class UserDAO {
                     String address = resultSet.getString("address");
                     String password = resultSet.getString("password");
 
-                    return new User(userId, firstName, lastName, address, email, password, null);
+                    return new User(userId, firstName, lastName, address, email, password);
                 }
                 return null;
             }

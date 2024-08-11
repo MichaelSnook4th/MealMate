@@ -4,29 +4,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Profile Manager</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            padding: 5px 0;
-        }
-        button {
-            margin-top: 10px;
-        }
-    </style>
+    <title>Meal Planner</title>
 </head>
 <body>
-    <h1>Profile Manager</h1>
+    <h1>Meal Planner</h1>
 
     <p>Welcome ${user.firstName} ${user.lastName}!</p>
 
@@ -46,18 +27,24 @@
         <li><strong>Address:</strong> ${user.address}</li>
     </ul>
 
-    <h2>Your Categories:</h2>
+    <h2>Your Recipes:</h2>
+<form action="SelectRecipesServlet" method="post">
     <ul>
         <c:choose>
-            <c:when test="${not empty userCategories}">
-                <c:forEach var="category" items="${userCategories}">
-                    <li>${category}</li>
+            <c:when test="${not empty userRecipes}">
+                <c:forEach var="recipe" items="${userRecipes}">
+                    <li>
+                        <input type="checkbox" name="recipeName" value="${recipe.name}" />
+                        ${recipe.name}
+                    </li>
                 </c:forEach>
             </c:when>
             <c:otherwise>
-                <li>No categories selected.</li>
+                <li>No recipes available.</li>
             </c:otherwise>
         </c:choose>
     </ul>
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>

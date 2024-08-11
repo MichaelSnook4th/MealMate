@@ -4,6 +4,7 @@ package com.mealmate.servlets;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.mealmate.beans.Recipe;
 import com.mealmate.beans.User;
+import com.mealmate.dao.RecipeDAO;
 import com.mealmate.dao.UserDAO;
 
 
@@ -26,9 +29,11 @@ import com.mealmate.dao.UserDAO;
 public class ProfileManagerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
+    private RecipeDAO recipeDAO;
 
     public void init() {
         userDAO = new UserDAO();
+        recipeDAO = new RecipeDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,10 +57,18 @@ public class ProfileManagerServlet extends HttpServlet {
                     userDAO.updateUser(user);
 
                     List<String> categories = userDAO.getUserCategories(user.getUserId());
-                    System.out.println("User categories: " + categories); // Debug output
-                    session.setAttribute("userCategories", categories);
+                    List<Recipe> recipes = recipeDAO.getAllRecipes(); 
 
-                    response.sendRedirect("profile.jsp");
+                    System.out.println("User Categories: " + categories);
+                    for (Recipe recipe : recipes) {
+                        System.out.println("Recipe: " + recipe.getName() + " in category: " + recipe.getCategory());
+                    }
+
+                    session.setAttribute("userCategories", categories);
+                    request.setAttribute("userRecipes", recipes); 
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
+                    dispatcher.forward(request, response);
                 } catch (SQLException e) {
                     throw new ServletException(e);
                 }
@@ -72,15 +85,31 @@ public class ProfileManagerServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
+
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             List<String> categories;
+            List<Recipe> recipes = new ArrayList<>();
             try {
                 categories = userDAO.getUserCategories(user.getUserId());
+                
+                System.out.println("User Categories: " + categories);
+
+                List<Integer> categoryIds = recipeDAO.getCategoryIdsByName(categories);
+                
+                System.out.println("Category IDs: " + categoryIds);
+
+                recipes = recipeDAO.getRecipesByCategoryIds(categoryIds);
+                
+                for (Recipe recipe : recipes) {
+                    System.out.println("Filtered Recipe: " + recipe.getName() + " in category: " + recipe.getCategory());
+                }
+
                 request.setAttribute("userCategories", categories);
+                request.setAttribute("userRecipes", recipes); 
             } catch (SQLException e) {
                 throw new ServletException("Error retrieving user categories", e);
             }
@@ -90,5 +119,6 @@ public class ProfileManagerServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
+
 
 }

@@ -20,7 +20,7 @@ public class HtmlGenerator {
         
         for (String ingredientName : ingredientNames) {
             ingredientsHtml.append("<label>")
-                .append("<input type='checkbox' name='ingredient' value='")
+                .append("<input type='checkbox' name='selectedIngredients' value='")  // Correct name is used here
                 .append(ingredientName)
                 .append("' />")
                 .append(ingredientName)
@@ -45,4 +45,6 @@ public class HtmlGenerator {
         }
         return shoppingListHtml.toString();
     }
+
+
 }
