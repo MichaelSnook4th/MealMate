@@ -46,7 +46,6 @@ public class UserDAO {
 
     public void registerUser(User user, String[] categories) throws SQLException {
         try (Connection connection = getConnection()) {
-            // Register user
             String token = UUID.randomUUID().toString();
             try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, user.getFirstName());
@@ -54,7 +53,7 @@ public class UserDAO {
                 preparedStatement.setString(3, user.getAddress());
                 preparedStatement.setString(4, user.getEmail());
                 preparedStatement.setString(5, user.getPassword());
-                preparedStatement.setBoolean(6, false);
+                preparedStatement.setBoolean(6, false); // Assuming user is not verified at registration
                 preparedStatement.setString(7, token);
                 preparedStatement.executeUpdate();
 
@@ -65,37 +64,18 @@ public class UserDAO {
                 }
             }
 
-            // Insert selected categories
             if (categories != null) {
-                // Remove existing categories
-                try (PreparedStatement deleteCategoriesStmt = connection.prepareStatement(DELETE_USER_CATEGORIES)) {
-                    deleteCategoriesStmt.setInt(1, user.getUserId());
-                    deleteCategoriesStmt.executeUpdate();
-                }
-
-                // Insert new categories
-                String insertUserCategoriesSQL = INSERT_USER_CATEGORIES;
-                for (String category : categories) {
-                    try (PreparedStatement categoryStatement = connection.prepareStatement(insertUserCategoriesSQL)) {
-                        categoryStatement.setInt(1, user.getUserId());
-
-                        // Assuming category names are unique, find the category ID
-                        String findCategoryIdSQL = "SELECT category_id FROM category WHERE category_name = ?";
-                        try (PreparedStatement findCategoryStatement = connection.prepareStatement(findCategoryIdSQL)) {
-                            findCategoryStatement.setString(1, category);
-                            try (ResultSet resultSet = findCategoryStatement.executeQuery()) {
-                                if (resultSet.next()) {
-                                    int categoryId = resultSet.getInt("category_id");
-                                    categoryStatement.setInt(2, categoryId);
-                                    categoryStatement.executeUpdate();
-                                }
-                            }
-                        }
+                for (String categoryId : categories) {
+                    try (PreparedStatement insertCategoryStatement = connection.prepareStatement(INSERT_USER_CATEGORIES)) {
+                        insertCategoryStatement.setInt(1, user.getUserId());
+                        insertCategoryStatement.setInt(2, Integer.parseInt(categoryId));
+                        insertCategoryStatement.executeUpdate();
                     }
                 }
             }
         }
     }
+
 
 
     public User checkLogin(String email, String password) throws SQLException {
@@ -252,7 +232,8 @@ public class UserDAO {
             preparedStatement.setInt(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    categories.add(resultSet.getString("category_name"));
+                    String categoryName = resultSet.getString("category_name");
+                    categories.add(categoryName);
                 }
             }
         }

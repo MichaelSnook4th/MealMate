@@ -39,31 +39,24 @@ public class RegistrationServlet extends HttpServlet {
         String address = request.getParameter("address");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String[] categories = request.getParameterValues("categories");
 
-        // Retrieve selected categories
-        String[] selectedCategories = request.getParameterValues("categories");
-
-        // Create a new User object
         User user = new User(firstName, lastName, address, email, password);
 
-        // Register the user in the database
         try {
-            userDAO.registerUser(user, selectedCategories);
+            // Register the user with the selected categories
+            userDAO.registerUser(user, categories);
 
-            // Generate and store a verification token
+            // Send verification email
             String token = UUID.randomUUID().toString();
             userDAO.storeToken(user.getUserId(), token);
-
-            // Send a verification email to the user
             EmailUtility.sendVerificationEmail(email, token);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // Redirect to login page
         response.sendRedirect("login.jsp");
     }
-
 
 }

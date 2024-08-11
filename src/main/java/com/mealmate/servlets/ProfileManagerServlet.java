@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -48,10 +50,9 @@ public class ProfileManagerServlet extends HttpServlet {
 
                 try {
                     userDAO.updateUser(user);
-                    session.setAttribute("user", user);
-                    
-                    // Fetch user categories and set in session
+
                     List<String> categories = userDAO.getUserCategories(user.getUserId());
+                    System.out.println("User categories: " + categories); // Debug output
                     session.setAttribute("userCategories", categories);
 
                     response.sendRedirect("profile.jsp");
@@ -71,4 +72,23 @@ public class ProfileManagerServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session != null && session.getAttribute("user") != null) {
+            User user = (User) session.getAttribute("user");
+            List<String> categories;
+            try {
+                categories = userDAO.getUserCategories(user.getUserId());
+                request.setAttribute("userCategories", categories);
+            } catch (SQLException e) {
+                throw new ServletException("Error retrieving user categories", e);
+            }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.sendRedirect("login.jsp");
+        }
+    }
+
 }

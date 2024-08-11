@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mealmate.dao.UserDAO;
 
-/**
- * Servlet implementation class VerifyServlet
- */
 @WebServlet("/VerifyServlet")
 public class VerifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,18 +20,11 @@ public class VerifyServlet extends HttpServlet {
 	public void init() {
 		userDAO = new UserDAO();
 	}
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	
     public VerifyServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String token = request.getParameter("token");
 		
@@ -50,11 +40,7 @@ public class VerifyServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
