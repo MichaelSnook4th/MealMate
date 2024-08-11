@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
 </head>
 <body>
     <h1>Welcome to Meal Mate</h1>

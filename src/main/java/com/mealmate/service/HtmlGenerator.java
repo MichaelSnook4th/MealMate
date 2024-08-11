@@ -8,8 +8,19 @@ public class HtmlGenerator {
     public static String generateRecipesHtml(List<String> recipeNames) {
         StringBuilder recipesHtml = new StringBuilder();
         
-        for (String recipeName : recipeNames) {
-            recipesHtml.append("<h2>").append(recipeName).append("</h2>");
+        if (recipeNames == null || recipeNames.isEmpty()) {
+            recipesHtml.append("<li>No recipes available.</li>");
+        } else {
+            recipesHtml.append("<ul>");
+            for (String recipeName : recipeNames) {
+                recipesHtml.append("<li>")
+                    .append("<input type='checkbox' name='recipeName' value='")
+                    .append(recipeName)
+                    .append("' />")
+                    .append(recipeName)
+                    .append("</li>");
+            }
+            recipesHtml.append("</ul>");
         }
         return recipesHtml.toString();
     }
@@ -17,14 +28,20 @@ public class HtmlGenerator {
     public static String generateIngredientsHtml(Set<String> ingredientNames) {
         StringBuilder ingredientsHtml = new StringBuilder();
         
+        ingredientsHtml.append("<ul>"); // Start the unordered list
+
         for (String ingredientName : ingredientNames) {
-            ingredientsHtml.append("<label>")
+            ingredientsHtml.append("<li>")
+                .append("<label>")
                 .append("<input type='checkbox' name='selectedIngredients' value='") 
                 .append(ingredientName)
                 .append("' />")
                 .append(ingredientName)
-                .append("</label><br/>");        
+                .append("</label>")
+                .append("</li>");
         }
+        
+        ingredientsHtml.append("</ul>");
         
         return ingredientsHtml.toString();
     }
@@ -44,6 +61,4 @@ public class HtmlGenerator {
         }
         return shoppingListHtml.toString();
     }
-
-
 }

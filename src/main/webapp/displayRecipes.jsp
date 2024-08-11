@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Selected Recipes</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <h1>Selected Recipes</h1>
-    <div>
-        ${recipesHtml}
+    <div class="container">
+        <h1>Selected Recipes</h1>
+        <div class="left-align">
+            ${recipesHtml}
+        </div>
+
+        <h2>Select Missing Ingredients</h2>
+        <form action="ShoppingListServlet" method="post" class="left-align">
+            ${ingredientsHtml}
+            <button type="submit">Generate Shopping List</button>
+        </form>
     </div>
-    <h2>Select Missing Ingredients</h2>
-<form action="ShoppingListServlet" method="post">
-    ${ingredientsHtml}
-    <input type="submit" value="Generate Shopping List">
-</form>
-
-
 </body>
 </html>

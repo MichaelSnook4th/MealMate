@@ -13,6 +13,7 @@ import com.mealmate.beans.Recipe;
 import com.mealmate.beans.User;
 import com.mealmate.dao.RecipeDAO;
 import com.mealmate.dao.UserDAO;
+import com.mealmate.service.HtmlGenerator;
 
 @WebServlet("/HomeServlet")
 public class HomeServlet extends HttpServlet {
@@ -30,14 +31,22 @@ public class HomeServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             try {
+                // Fetch user categories
                 List<String> categories = userDAO.getUserCategories(user.getUserId());
 
+                // Get the corresponding category IDs and fetch recipes
                 List<Integer> categoryIds = recipeDAO.getCategoryIdsByName(categories);
-
                 List<Recipe> recipes = recipeDAO.getRecipesByCategoryIds(categoryIds);
 
-                request.setAttribute("userRecipes", recipes);
+                // Generate HTML for recipes using HtmlGenerator
+                String recipesHtml = HtmlGenerator.generateRecipesHtml(
+                    recipes.stream().map(Recipe::getName).toList()
+                );
 
+                // Set the generated HTML as a request attribute
+                request.setAttribute("recipesHtml", recipesHtml);
+
+                // Forward to the JSP page
                 request.getRequestDispatcher("mealmatehome.jsp").forward(request, response);
             } catch (SQLException e) {
                 throw new ServletException(e);

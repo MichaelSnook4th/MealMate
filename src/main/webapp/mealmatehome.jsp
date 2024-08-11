@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Meal Planner</title>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <h1>Meal Planner</h1>
@@ -19,31 +20,9 @@
         <button type="submit" name="update">Update Profile</button>
     </form>
 
-    <h2>Your Profile Details:</h2>
-    <ul>
-        <li><strong>First Name:</strong> ${user.firstName}</li>
-        <li><strong>Last Name:</strong> ${user.lastName}</li>
-        <li><strong>Email:</strong> ${user.email}</li>
-        <li><strong>Address:</strong> ${user.address}</li>
-    </ul>
-
     <h2>Your Recipes:</h2>
 <form action="SelectRecipesServlet" method="post">
-    <ul>
-        <c:choose>
-            <c:when test="${not empty userRecipes}">
-                <c:forEach var="recipe" items="${userRecipes}">
-                    <li>
-                        <input type="checkbox" name="recipeName" value="${recipe.name}" />
-                        ${recipe.name}
-                    </li>
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <li>No recipes available.</li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
+        ${recipesHtml}
     <button type="submit">Submit</button>
 </form>
 </body>

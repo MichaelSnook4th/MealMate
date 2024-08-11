@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Shopping List</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
 </head>
 <body>
     <h1>Your Shopping List</h1>

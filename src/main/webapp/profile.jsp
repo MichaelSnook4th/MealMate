@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>User Profile</title>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <h2>User Profile</h2>
