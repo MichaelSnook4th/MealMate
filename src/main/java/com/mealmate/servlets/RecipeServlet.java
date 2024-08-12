@@ -49,7 +49,7 @@ public class RecipeServlet extends HttpServlet {
         }
 
         Set<String> allIngredients = recipeIngredients.values().stream().flatMap(List::stream).collect(Collectors.toSet());
-        String recipesHtml = HtmlGenerator.generateRecipesHtml(new ArrayList<>(recipeIngredients.keySet()));
+        String recipesHtml = HtmlGenerator.generateRecipesWithCheckboxesHtml(new ArrayList<>(recipeIngredients.keySet()));
         String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(allIngredients);
 
         request.setAttribute("recipesHtml", recipesHtml);

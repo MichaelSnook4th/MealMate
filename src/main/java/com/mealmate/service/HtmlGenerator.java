@@ -5,30 +5,33 @@ import java.util.Set;
 
 public class HtmlGenerator {
 
-    public static String generateRecipesHtml(List<String> recipeNames) {
+	public static String generateRecipesAsTextHtml(List<String> recipeNames) {
         StringBuilder recipesHtml = new StringBuilder();
-        
-        if (recipeNames == null || recipeNames.isEmpty()) {
-            recipesHtml.append("<li>No recipes available.</li>");
-        } else {
-            recipesHtml.append("<ul>");
-            for (String recipeName : recipeNames) {
-                recipesHtml.append("<li>")
-                    .append("<input type='checkbox' name='recipeName' value='")
-                    .append(recipeName)
-                    .append("' />")
-                    .append(recipeName)
-                    .append("</li>");
-            }
-            recipesHtml.append("</ul>");
+        for (String recipeName : recipeNames) {
+            recipesHtml.append("<p>").append(recipeName).append("</p>");
         }
+        return recipesHtml.toString();
+    }
+
+    public static String generateRecipesWithCheckboxesHtml(List<String> recipeNames) {
+        StringBuilder recipesHtml = new StringBuilder();
+        recipesHtml.append("<ul>");
+        for (String recipeName : recipeNames) {
+            recipesHtml.append("<li>")
+                .append("<input type='checkbox' name='recipeName' value='")
+                .append(recipeName)
+                .append("' />")
+                .append(recipeName)
+                .append("</li>");
+        }
+        recipesHtml.append("</ul>");
         return recipesHtml.toString();
     }
     
     public static String generateIngredientsHtml(Set<String> ingredientNames) {
         StringBuilder ingredientsHtml = new StringBuilder();
         
-        ingredientsHtml.append("<ul>"); // Start the unordered list
+        ingredientsHtml.append("<ul>");
 
         for (String ingredientName : ingredientNames) {
             ingredientsHtml.append("<li>")

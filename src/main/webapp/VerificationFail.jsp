@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Email Verification Failed</title>
+    <meta charset="UTF-8">
+    <title>Email Verification Failed</title>
 </head>
 <body>
-	<h1>Email Verification Failed</h1>
-	<p>Unfortunately, we couldn't verify your email.</p>
-	<a href="registration.jsp">Go to Registration</a>
+    <h1>Email Verification Failed</h1>
+    <p>Unfortunately, we couldn't verify your email.</p>
+    <a href="registration.jsp">Go to Registration</a>
 </body>
 </html>

@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mealmate.beans.Recipe;
 import com.mealmate.dao.RecipeDAO;
@@ -21,8 +22,10 @@ public class SelectRecipesServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
         String[] selectedRecipes = request.getParameterValues("recipeName");
-        
+
         if (selectedRecipes != null && selectedRecipes.length > 0) {
             RecipeDAO recipeDAO = new RecipeDAO();
             Set<String> selectedIngredientsSet = new HashSet<>();
@@ -34,16 +37,14 @@ public class SelectRecipesServlet extends HttpServlet {
                 selectedIngredientsSet.addAll(ingredients);
             }
             
-            String recipesHtml = HtmlGenerator.generateRecipesHtml(recipeNames);
+            String recipesHtml = HtmlGenerator.generateRecipesAsTextHtml(recipeNames);
             String ingredientsHtml = HtmlGenerator.generateIngredientsHtml(selectedIngredientsSet);
             
-            String allIngredientsStr = String.join(",", selectedIngredientsSet);
-
-            request.setAttribute("recipesHtml", recipesHtml);
-            request.setAttribute("ingredientsHtml", ingredientsHtml);
-            request.setAttribute("allIngredientsStr", allIngredientsStr);
+            session.setAttribute("recipesHtml", recipesHtml);
+            session.setAttribute("ingredientsHtml", ingredientsHtml);
+            session.setAttribute("recipeNames", recipeNames);
         } else {
-            request.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
+            session.setAttribute("recipesHtml", "<p>No recipes selected.</p>");
         }
 
         request.getRequestDispatcher("displayRecipes.jsp").forward(request, response);

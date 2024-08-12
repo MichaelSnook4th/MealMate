@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Registration</title>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <h2>Register</h2>
@@ -32,7 +33,9 @@
         <label for="categories">Favorite Categories:</label><br>
         <input type="checkbox" name="categories" value="1"> Indian<br>
         <input type="checkbox" name="categories" value="2"> Mexican<br>
-        <input type="checkbox" name="categories" value="3"> Chinese<br><br>
+        <input type="checkbox" name="categories" value="3"> Chinese<br>
+        <input type="checkbox" name="categories" value="4"> Italian<br>
+        <input type="checkbox" name="categories" value="5"> American<br>
         <button type="submit">Register</button>
     </form>
 </body>

@@ -18,6 +18,10 @@
             ${ingredientsHtml}
             <button type="submit">Generate Shopping List</button>
         </form>
+
+        <form action="HomeServlet" method="get" class="left-align">
+            <button type="submit">Back to Home</button>
+        </form>
     </div>
 </body>
 </html>

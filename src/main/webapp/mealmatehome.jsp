@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Meal Planner</title>
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <h1>Meal Planner</h1>
@@ -21,9 +21,9 @@
     </form>
 
     <h2>Your Recipes:</h2>
-<form action="SelectRecipesServlet" method="post">
+    <form action="SelectRecipesServlet" method="post">
         ${recipesHtml}
-    <button type="submit">Submit</button>
-</form>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

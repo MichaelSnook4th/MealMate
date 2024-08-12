@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Forgot Password</title>
+    <meta charset="UTF-8">
+    <title>Forgot Password</title>
 </head>
 <body>
     <h2>Forgot Password</h2>

@@ -31,22 +31,17 @@ public class HomeServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             try {
-                // Fetch user categories
                 List<String> categories = userDAO.getUserCategories(user.getUserId());
 
-                // Get the corresponding category IDs and fetch recipes
                 List<Integer> categoryIds = recipeDAO.getCategoryIdsByName(categories);
                 List<Recipe> recipes = recipeDAO.getRecipesByCategoryIds(categoryIds);
 
-                // Generate HTML for recipes using HtmlGenerator
-                String recipesHtml = HtmlGenerator.generateRecipesHtml(
+                String recipesHtml = HtmlGenerator.generateRecipesWithCheckboxesHtml(
                     recipes.stream().map(Recipe::getName).toList()
                 );
 
-                // Set the generated HTML as a request attribute
                 request.setAttribute("recipesHtml", recipesHtml);
 
-                // Forward to the JSP page
                 request.getRequestDispatcher("mealmatehome.jsp").forward(request, response);
             } catch (SQLException e) {
                 throw new ServletException(e);

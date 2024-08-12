@@ -14,9 +14,6 @@ import com.mealmate.beans.User;
 import com.mealmate.dao.EmailUtility;
 import com.mealmate.dao.UserDAO;
 
-/**
- * Servlet implementation class PasswordRecoveryServlet
- */
 @WebServlet("/PasswordRecoveryServlet")
 public class PasswordRecoveryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,9 +24,6 @@ public class PasswordRecoveryServlet extends HttpServlet {
         userDAO = new UserDAO();
     }
 
-    /**
-     * Handle GET requests for password recovery.
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
@@ -47,9 +41,6 @@ public class PasswordRecoveryServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Handle POST requests for initiating password recovery.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");

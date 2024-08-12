@@ -26,7 +26,6 @@ public class ProfileManagerServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
 
             if (request.getParameter("update") != null) {
-                // Get parameters from the form
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
                 String address = request.getParameter("address");

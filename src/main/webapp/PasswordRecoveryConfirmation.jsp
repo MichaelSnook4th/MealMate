@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Password Recovery Confirmation</title>
+    <meta charset="UTF-8">
+    <title>Password Recovery Confirmation</title>
 </head>
 <body>
     <h2>Password Recovery Confirmation</h2>

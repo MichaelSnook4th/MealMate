@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Reset Password</title>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
 </head>
 <body>
     <h2>Reset Your Password</h2>
@@ -12,11 +12,15 @@
     <form action="ResetPasswordServlet" method="post">
         <input type="hidden" name="token" value="${token}">
         
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" required>
+        <div>
+            <label for="password">New Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         
-        <label for="confirmPassword">Confirm New Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <div>
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
         
         <button type="submit">Reset Password</button>
     </form>

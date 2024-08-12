@@ -8,7 +8,6 @@ public class User {
     private String email;
     private String password;
 
-    // Constructor for new users
     public User(String firstName, String lastName, String address, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,7 +16,6 @@ public class User {
         this.password = password;
     }
 
-    // Constructor for existing users
     public User(int userId, String firstName, String lastName, String address, String email, String password) {
         this.userId = userId;
         this.firstName = firstName;
@@ -27,7 +25,6 @@ public class User {
         this.password = password;
     }
 
-    // Getters and setters
     public int getUserId() {
         return userId;
     }

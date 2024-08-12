@@ -5,16 +5,14 @@
     <meta charset="UTF-8">
     <title>Shopping List</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    
 </head>
 <body>
     <h1>Your Shopping List</h1>
-<div>
-    ${shoppingListHtml}
-</div>
-<form action="HomeServlet" method="get">
-    <button type="submit">Back to Home</button>
-</form>
-
+    <div>
+        ${shoppingListHtml}
+    </div>
+    <form action="HomeServlet" method="get">
+        <button type="submit">Back to Home</button>
+    </form>
 </body>
 </html>
