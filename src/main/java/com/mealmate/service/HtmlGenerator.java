@@ -5,6 +5,18 @@ import java.util.Set;
 
 public class HtmlGenerator {
 
+	private static HtmlGenerator instance;
+	
+	private HtmlGenerator() {
+		
+	}
+	
+	public static synchronized HtmlGenerator getInstance() {
+		if (instance == null) {
+			instance = new HtmlGenerator();
+		}
+		return instance;
+	}
 	public static String generateRecipesAsTextHtml(List<String> recipeNames) {
         StringBuilder recipesHtml = new StringBuilder();
         for (String recipeName : recipeNames) {

@@ -22,8 +22,8 @@ public class HomeServlet extends HttpServlet {
     private UserDAO userDAO;
 
     public void init() {
-        recipeDAO = new RecipeDAO();
-        userDAO = new UserDAO();
+        recipeDAO = RecipeDAO.getInstance();
+        userDAO = UserDAO.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

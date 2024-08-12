@@ -1,17 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Forgot Password</title>
+    <title>Home Page</title>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
 </head>
 <body>
-    <h2>Forgot Password</h2>
-    <form action="PasswordRecoveryServlet" method="post">
-        <label for="email">Enter your email address:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        <input type="submit" value="Recover Password">
-    </form>
+    <h1>Welcome to Meal Mate</h1>
+    <p>We're here to help you plan your meals.</p>    
+    <p>Need an account? <a href="registration.jsp">Register here</a></p>
+    <p>Already have an account? <a href="login.jsp">Login here</a></p>
 </body>
 </html>

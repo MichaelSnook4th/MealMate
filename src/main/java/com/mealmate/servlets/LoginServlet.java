@@ -23,8 +23,8 @@ public class LoginServlet extends HttpServlet {
     private RecipeDAO recipeDAO;
 
     public void init() {
-        userDAO = new UserDAO();
-        recipeDAO = new RecipeDAO();
+        userDAO = UserDAO.getInstance();
+        recipeDAO = RecipeDAO.getInstance();
     }
 
     public LoginServlet() {

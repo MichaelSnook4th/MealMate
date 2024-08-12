@@ -27,7 +27,7 @@ public class SelectRecipesServlet extends HttpServlet {
         String[] selectedRecipes = request.getParameterValues("recipeName");
 
         if (selectedRecipes != null && selectedRecipes.length > 0) {
-            RecipeDAO recipeDAO = new RecipeDAO();
+            RecipeDAO recipeDAO = RecipeDAO.getInstance();
             Set<String> selectedIngredientsSet = new HashSet<>();
             
             List<String> recipeNames = Arrays.asList(selectedRecipes);

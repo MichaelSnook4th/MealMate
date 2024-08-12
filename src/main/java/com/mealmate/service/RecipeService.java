@@ -8,7 +8,7 @@ public class RecipeService {
     private RecipeDAO recipeDAO;
 
     public RecipeService() {
-        this.recipeDAO = new RecipeDAO();
+        this.recipeDAO = RecipeDAO.getInstance();
     }
 
     public List<Recipe> getRecipesByCategory(String category) {

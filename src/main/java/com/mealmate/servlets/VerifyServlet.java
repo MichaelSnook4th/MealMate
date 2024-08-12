@@ -18,7 +18,7 @@ public class VerifyServlet extends HttpServlet {
 	private UserDAO userDAO;
 	
 	public void init() {
-		userDAO = new UserDAO();
+		userDAO = UserDAO.getInstance();
 	}
 	
     public VerifyServlet() {

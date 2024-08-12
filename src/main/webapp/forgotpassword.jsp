@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <h2>Forgot Password</h2>

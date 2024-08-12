@@ -23,7 +23,7 @@ import com.mealmate.service.HtmlGenerator;
 @WebServlet("/RecipeServlet")
 public class RecipeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private RecipeDAO recipeDAO = new RecipeDAO();
+    private RecipeDAO recipeDAO = RecipeDAO.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

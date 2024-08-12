@@ -17,6 +17,8 @@ public class RecipeDAO {
     private String USER = "root";
     private String PASSWORD = "";
 
+    private static RecipeDAO instance;
+    
     private static final String SELECT_RECIPES_BY_CATEGORY = "SELECT recipe_name FROM recipes WHERE category_id = (SELECT category_id FROM categories WHERE category_name = ?)";
     private static final String INSERT_RECIPE_SQL = "INSERT INTO recipes (recipe_name, category_id) VALUES (?, (SELECT category_id FROM categories WHERE category_name = ?))";
     private static final String DELETE_RECIPE_SQL = "DELETE FROM recipes WHERE recipe_name = ?";
@@ -25,6 +27,16 @@ public class RecipeDAO {
     private static final String SELECT_ALL_CATEGORIES = "SELECT category_name FROM categories";
     private static final String SELECT_INGREDIENTS_BY_RECIPE_NAME = "SELECT ingredient_name FROM ingredients WHERE recipe_id = (SELECT recipe_id FROM recipes WHERE recipe_name = ?)";
 
+    private RecipeDAO() {
+    }
+    
+    public static synchronized RecipeDAO getInstance() {
+    	if (instance == null) {
+    		instance = new RecipeDAO();
+    	}
+    	return instance;
+    }
+    
     protected Connection getConnection() throws SQLException {
         Connection connection = null;
         try {

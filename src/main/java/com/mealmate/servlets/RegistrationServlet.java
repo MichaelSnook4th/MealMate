@@ -16,17 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mealmate.beans.User;
-import com.mealmate.dao.EmailUtility;
+import com.mealmate.email.EmailUtility;
 import com.mealmate.dao.UserDAO;
+import com.mealmate.email.VerificationEmailStrategy;
 
 
 @WebServlet("/RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
+    private EmailUtility emailUtility;
 
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = UserDAO.getInstance();
+        emailUtility = EmailUtility.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,7 +51,7 @@ public class RegistrationServlet extends HttpServlet {
 
             String token = UUID.randomUUID().toString();
             userDAO.storeToken(user.getUserId(), token);
-            EmailUtility.sendVerificationEmail(email, token);
+            emailUtility.sendEmail(new VerificationEmailStrategy(), email, token);
 
         } catch (SQLException e) {
             e.printStackTrace();

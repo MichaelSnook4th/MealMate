@@ -17,7 +17,7 @@ public class ProfileManagerServlet extends HttpServlet {
     private UserDAO userDAO;
 
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = UserDAO.getInstance();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

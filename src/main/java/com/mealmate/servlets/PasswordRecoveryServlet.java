@@ -11,17 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mealmate.beans.User;
-import com.mealmate.dao.EmailUtility;
+import com.mealmate.email.EmailUtility;
 import com.mealmate.dao.UserDAO;
+import com.mealmate.email.PasswordRecoveryEmailStrategy;
 
 @WebServlet("/PasswordRecoveryServlet")
 public class PasswordRecoveryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
+    private EmailUtility emailUtility;
 
     @Override
     public void init() {
-        userDAO = new UserDAO();
+        userDAO = UserDAO.getInstance();
+        emailUtility = EmailUtility.getInstance();
     }
 
     @Override
@@ -50,7 +53,7 @@ public class PasswordRecoveryServlet extends HttpServlet {
             if (user != null) {
                 String token = UUID.randomUUID().toString();
                 userDAO.storePasswordRecoveryToken(user.getUserId(), token);
-                EmailUtility.sendPasswordRecoveryEmail(email, token);
+                emailUtility.sendEmail(new PasswordRecoveryEmailStrategy(), email, token);
                 response.sendRedirect("PasswordRecoveryConfirmation.jsp");
             } else {
                 request.setAttribute("message", "Email address not found");

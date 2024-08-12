@@ -17,6 +17,8 @@ public class UserDAO {
     private String USER = "root";
     private String PASSWORD = "";
 
+    private static UserDAO instance;
+    
     private static final String INSERT_USERS_SQL = "INSERT INTO users (firstName, lastName, address, email, password, isVerified, token) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT * FROM users WHERE email = ? AND password = ?";
     private static final String SELECT_USER_BY_TOKEN = "SELECT * FROM users WHERE token = ?";
@@ -33,6 +35,17 @@ public class UserDAO {
     private static final String DELETE_USER_CATEGORIES = "DELETE FROM user_categories WHERE userId = ?";
     private static final String SELECT_USER_CATEGORIES = "SELECT c.category_name FROM user_categories uc JOIN categories c ON uc.category_id = c.category_id WHERE uc.userId = ?";
 
+    private UserDAO() {
+    	
+    }
+    
+    public static synchronized UserDAO getInstance() {
+    	if (instance == null) {
+    		instance = new UserDAO();
+    	}
+    	return instance;
+    }
+    
     protected Connection getConnection() throws SQLException {
         Connection connection = null;
         try {

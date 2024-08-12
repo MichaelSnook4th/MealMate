@@ -10,7 +10,7 @@ public class UserService {
     private UserDAO userDAO;
 
     public UserService() {
-        this.userDAO = new UserDAO();
+        this.userDAO = UserDAO.getInstance();
     }
 
     public User getUserByEmail(String email) throws SQLException {
